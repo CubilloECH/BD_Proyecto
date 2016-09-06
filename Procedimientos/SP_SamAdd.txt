@@ -1,0 +1,373 @@
+DELIMITER //
+
+DELIMITER $$
+
+DROP PROCEDURE IF EXISTS `sp_samAddRegPer`$$
+
+CREATE PROCEDURE sp_samAddRegPer
+(
+  P_SAM07CedUsr    VARCHAR(10),
+  P_SAM07NomPers   VARCHAR(50), 
+  P_SAM07ApePers1  VARCHAR(50),
+  P_SAM07ApePers2  VARCHAR(50),
+  P_SAM07TelefOfi  VARCHAR(50),
+  P_SAM07TelefPers VARCHAR(50),
+  P_SAM07CorrPers  VARCHAR(50)
+)
+BEGIN
+    IF NOT EXISTS(SELECT C.SAM07CedUsr FROM SAM07RegPers AS C WHERE C.SAM07CedUsr = P_SAM07CedUsr)
+      THEN
+       INSERT INTO SAM07RegPers(SAM07CedUsr, SAM07NomPers, SAM07ApePers1,SAM07ApePers2,SAM07TelefOfi,SAM07TelefPers,SAM07CorrPers)
+       VALUES ( P_SAM07CedUsr,P_SAM07NomPers,P_SAM07ApePers1,P_SAM07ApePers2,P_SAM07TelefOfi, P_SAM07TelefPers, P_SAM07CorrPers); 
+       SELECT 'Registro agregado con exito!';
+    ELSE
+      SELECT 'Este cliente ya existe en la base de datos!';
+    END IF;
+END//
+
+DELIMITER ;
+
+DELIMITER //
+
+DELIMITER $$
+
+USE `sam`$$
+
+DROP PROCEDURE IF EXISTS `sp_samAddOrd`$$
+
+CREATE PROCEDURE sp_samAddOrd (
+  P_SAM03CoOrd VARCHAR(50),
+  P_SAM03Ubic VARCHAR(50),
+  P_SAM04CoDepart VARCHAR(15),
+  P_SAM03AnioTrans DATE, 
+  P_SAM03FeExt VARCHAR(10),
+  P_SAM05CedUsr VARCHAR(10)
+)
+BEGIN
+   
+      
+    IF EXISTS(SELECT SAM03CoOrd FROM SAM03RegOrd WHERE SAM03CoOrd = P_SAM03CoOrd)
+    THEN
+      SELECT 'Este registro ya existe!';
+    
+    ELSE
+       INSERT INTO SAM03RegOrd(SAM03CoOrd, SAM03Ubic, SAM04CoDepart,SAM03AnioTrans,
+                               SAM03FeExt,SAM05CedUsr)
+       VALUES ( P_SAM03CoOrd,P_SAM03Ubic, P_SAM04CoDepart,P_SAM03AnioTrans, P_SAM03FeExt,P_SAM05CedUsr); 
+       SELECT 'Registro agregado con exito!';
+    END IF;
+END$$
+
+DELIMITER ;
+
+DELIMITER $$
+
+USE `sam`$$
+
+DROP PROCEDURE IF EXISTS `sp_samAddDepart`$$
+
+CREATE PROCEDURE sp_samAddDepart(
+  P_SAM04CoDepart VARCHAR(15),
+  P_SAM04DescpPart VARCHAR(50)
+)
+BEGIN
+   
+      
+    IF EXISTS(SELECT SAM04CoDepart FROM SAM04CatDepart WHERE SAM04CoDepart = P_SAM04CoDepart)
+    THEN
+      SELECT 'Este registro ya existe!';
+    
+    ELSE
+       INSERT INTO SAM04Depart(SAM04CoDepart, SAM04DescpPart)
+       VALUES ( P_SAM04CoDepart,P_SAM04DescpPart); 
+       SELECT 'Registro agregado con exito!';
+    END IF;
+END$$
+
+DELIMITER ;
+
+
+DELIMITER $$
+
+USE `sam`$$
+
+DROP PROCEDURE IF EXISTS sp_samAddDetPre$$
+
+CREATE PROCEDURE sp_samAddDetPre(
+  P_SAM09CoPrest INTEGER,
+  P_SAM01CoDoc VARCHAR(50)
+)
+BEGIN
+   
+      
+    IF EXISTS(SELECT SAM09CoPrest FROM SAM10DetPrest WHERE SAM09CoPrest = P_SAM09CoPrest)
+    THEN
+       IF EXISTS(SELECT SAM01CoDoc FROM SAM10DetPrest WHERE SAM01CoDoc = P_SAM01CoDoc)
+       THEN   
+           SELECT 'Este registro ya existe!';
+    
+       ELSE
+          INSERT INTO sam10detpre(SAM09CoPrest,SAM01CoDoc) 
+          VALUES (P_SAM09CoPrest, P_SAM01CoDoc); 
+          SELECT 'Registro agregado con exito!';
+       END IF; 
+    ELSE
+            INSERT INTO sam10detpre(SAM09CoPrest,SAM01CoDoc) 
+          VALUES (P_SAM09CoPrest, P_SAM01CoDoc);
+       SELECT 'Registro agregado con exito!';
+    END IF;
+END$$
+
+DELIMITER ;
+
+
+DELIMITER $$
+
+USE `sam`$$
+
+DROP PROCEDURE IF EXISTS `sp_samAddDetSol`$$
+
+CREATE PROCEDURE sp_samAddDetSol(
+  P_SAM12CoDet INTEGER,
+  P_SAM11CoSoli INTEGER,
+  P_SAM01CoDoc VARCHAR(50)
+)
+BEGIN
+   
+      
+    IF EXISTS(SELECT SAM11CoSoli FROM SAM12DeTSoli WHERE  SAM11CoSoli =  P_SAM11CoSoli)
+    THEN
+        SELECT 'Este registro ya existe!';
+      IF EXISTS(SELECT SAM01CoDoc FROM SAM12DeTSoli WHERE SAM01CoDoc = P_SAM01CoDoc)   
+      THEN
+        SELECT 'Este registro ya existe!';
+      ELSE
+          INSERT INTO SAM12DeTSol(SAM11CoSoli, SAM01CoDoc)
+          VALUES ( P_SAM11CoSoli, P_SAM01CoDoc); 
+          SELECT 'Registro agregado con exito!';
+      END IF; 
+    ELSE
+       INSERT INTO SAM12DeTSol(SAM11CoSoli, SAM01CoDoc)
+       VALUES ( P_SAM11CoSoli, P_SAM01CoDoc); 
+       SELECT 'Registro agregado con exito!';
+    END IF;
+END$$
+
+DELIMITER ;
+
+DELIMITER $$
+
+USE `sam`$$
+
+DROP PROCEDURE IF EXISTS `sp_samAddRegSol`$$
+
+CREATE PROCEDURE sp_samAddRegSol(
+  P_SAM11CoSoli INTEGER,
+  P_SAM11FeSoli DATE,
+  P_SAM01CedUsr VARCHAR(10),
+  P_SAM11ReSoli VARCHAR(100)
+)
+BEGIN
+   
+      
+    IF EXISTS
+    (
+    	SELECT SAM11CoSoli FROM SAM11RegSoli WHERE SAM11CoSoli =  P_SAM11CoSoli
+    )
+    THEN
+      SELECT 'Este registro ya existe!';
+    
+    ELSE
+       INSERT INTO SAM11RegSol(SAM11CoSoli, SAM11FeSoli, SAM01CedUsr, SAM11ReSoli)
+       VALUES (P_SAM11CoSoli, P_SAM11FeSoli,P_SAM01CedUsr,P_SAM11ReSoli); 
+       SELECT 'Registro agregado con exito!';
+    END IF;
+END$$
+
+DELIMITER ;
+
+DELIMITER $$
+
+USE `sam`$$
+
+DROP PROCEDURE IF EXISTS `sp_samAddRegPre`$$
+
+CREATE PROCEDURE  sp_samAddRegPre(
+  P_SAM09CoPrest INTEGER,
+  P_SAM09FePres DATE,
+  P_SAM09FeDevo DATE ,
+  P_SAM05CedUsr VARCHAR(10)
+)
+BEGIN
+   
+      
+    IF EXISTS
+    (
+    	SELECT SAM09CoPrest FROM SAM09RegPrest WHERE SAM09CoPrest =  P_SAM09CoPrest
+    )
+    THEN
+      SELECT 'Este registro ya existe!';
+    
+    ELSE
+       INSERT INTO SAM09RegPre(SAM09CoPrest,SAM09FePres,SAM09FeDevo,SAM05CedUsr)
+       VALUES ( P_SAM09CoPrest,P_SAM09FePres,P_SAM09FeDevo,P_SAM05CedUsr); 
+       SELECT 'Registro agregado con exito!';
+    END IF;
+END$$
+
+DELIMITER ;
+
+DELIMITER $$
+
+USE `sam`$$
+
+DROP PROCEDURE IF EXISTS `sp_samAddRegDoc`$$
+
+CREATE PROCEDURE sp_samAddRegDoc(
+  P_SAM01CoDoc VARCHAR(50),
+  P_SAM03CoOrd VARCHAR(50),
+  P_SAM02CoTip INTEGER,
+  P_SAM01Conte VARCHAR(200),
+  P_SAM01Note VARCHAR(50),
+  P_SAM01Contri VARCHAR(100),
+  P_SAM01Anio DATE,
+  P_SAM01FeExt VARCHAR(10)
+)
+BEGIN
+   
+      
+    IF EXISTS
+    (
+    	SELECT SAM01CoDoc FROM SAM01RegDoc WHERE  SAM01CoDoc =  P_SAM01CoDoc
+    )
+    THEN
+      SELECT 'Este registro ya existe!';
+    
+    ELSE
+            INSERT INTO sam01regdoc(SAM01CoDoc,SAM03CoOrd,SAM02CoTipDoc,SAM01Conte,SAM01Note,SAM01Contri,SAM01Anio,SAM01FeExt)        
+         VALUES ( P_SAM01CoDoc,P_SAM03CoOrd,P_SAM02CoTip,P_SAM01Conte,P_SAM01Note,P_SAM01Contri,P_SAM01Anio,P_SAM01FeExt); 
+       SELECT 'Registro agregado con exito!';
+    END IF;
+END$$
+
+DELIMITER ;
+
+
+DELIMITER $$
+
+USE `sam`$$
+
+DROP PROCEDURE IF EXISTS `sp_samAddTipDoc`$$
+
+CREATE PROCEDURE  sp_samAddTipDoc(
+  P_SAM02CoTipDoc INT(11),
+  P_SAM02Descp VARCHAR(50)
+)
+BEGIN
+   
+      
+    IF EXISTS
+    (
+    	SELECT SAM02CoTipDoc FROM SAM02CatTipDoc WHERE  SAM02CoTipDoc =  P_SAM02CoTipDoc
+    )
+    THEN
+      SELECT 'Este registro ya existe!';
+    
+    ELSE
+       INSERT INTO sam02tipdoc (SAM02CoTipDoc, SAM02Descp) 
+       VALUES ( P_SAM02CoTipDoc, P_SAM02Descp); 
+       SELECT 'Registro agregado con exito!';
+    END IF;
+END$$
+
+DELIMITER ;
+
+DELIMITER $$
+
+USE `sam`$$
+
+DROP PROCEDURE IF EXISTS `sp_samAddEstDoc`$$
+
+CREATE PROCEDURE sp_samAddEstDoc(
+  P_SAM08CoDoc VARCHAR(50),
+  P_SAM08EstDoc VARCHAR(12)
+)
+BEGIN
+   
+      
+    IF EXISTS
+    (
+    	SELECT SAM08CoDoc FROM SAM08CatEst WHERE  SAM08CoDoc =  P_SAM08CoDoc
+    )
+    THEN
+      SELECT 'Este registro ya existe!';
+    
+    ELSE
+       INSERT INTO SAM08EstDoc(SAM08CoDoc, SAM08EstDoc)
+       VALUES ( P_SAM08CoDoc,P_SAM08EstDoc); 
+       SELECT 'Registro agregado con exito!';
+    END IF;
+END$$
+
+DELIMITER ;
+
+DELIMITER $$
+
+USE `sam`$$
+
+DROP PROCEDURE IF EXISTS `sp_samAddRegUsr`$$
+
+CREATE PROCEDURE sp_samAddRegUsr(
+  P_SAM05CedUsr VARCHAR(10),
+  P_SAM05Contra VARCHAR(20),
+  P_SAM06CoTipUsr INTEGER,
+  P_SAM04CoDepart VARCHAR(15)
+)
+BEGIN
+   
+      
+    IF EXISTS
+    (
+    	SELECT SAM05CedUsr FROM SAM05RegUsr WHERE SAM05CedUsr =  P_SAM05CedUsr
+    )
+    THEN
+      SELECT 'Este registro ya existe!';
+    
+    ELSE
+       INSERT INTO sam05regusr(SAM05CedUsr,SAM05Contra,SAM06CoTipUsr,SAM04CoDepart)
+       VALUES ( P_SAM05CedUsr,P_SAM05Contra,P_SAM06CoTipUsr,P_SAM04CoDepart); 
+       SELECT 'Registro agregado con exito!';
+    END IF;
+END$$
+
+DELIMITER ;
+
+
+DELIMITER $$
+
+USE `sam`$$
+
+DROP PROCEDURE IF EXISTS `sp_samAddTipUsr`$$
+
+CREATE PROCEDURE sp_samAddTipUsr(
+  P_SAM06CoTipUsr INTEGER,
+  P_SAM06DescpUsr VARCHAR(20)
+)
+BEGIN
+   
+      
+    IF EXISTS
+    (
+    	SELECT SAM06CoTipUsr FROM SAM06CatTipUsr WHERE  SAM06CoTipUsr =  P_SAM06CoTipUsr
+    )
+    THEN
+      SELECT 'Este registro ya existe!';
+    
+    ELSE
+       INSERT INTO SAM06TipUsr(SAM06CoTipUsr, SAM06DescpUsr)
+       VALUES ( P_SAM06CoTipUsr,P_SAM06DescpUsr); 
+       SELECT 'Registro agregado con exito!';
+    END IF;
+END$$
+
+DELIMITER ;

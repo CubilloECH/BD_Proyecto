@@ -1,0 +1,240 @@
+DELIMITER $$
+
+USE `sam`$$
+
+DROP PROCEDURE IF EXISTS `sp_SamUpdPer`$$
+
+CREATE PROCEDURE `sp_SamUpdPer`
+(
+  P_SAM07CedUsr       VARCHAR(10),
+  P_SAM07NomPers      VARCHAR(50), 
+  P_SAM07ApePers1     VARCHAR(50),
+  P_SAM07ApePers2     VARCHAR(50),
+  P_SAM07TelfOfi      VARCHAR(20),
+  P_SAM07TelfPers     VARCHAR(20),
+  P_SAM07CorrPers     VARCHAR(20)
+)
+BEGIN
+
+    IF NOT EXISTS(SELECT SAM07CedUsr FROM SAM07RegPer WHERE SAM07CedUsr = P_SAM07CedUsr)
+    THEN
+      SELECT 'Este Registro no existe!';
+    
+    ELSE
+         UPDATE `SAM07RegPer`
+            SET SAM07NomPers=P_SAM07NomPers,
+            SAM07ApePers1=P_SAM07ApePers1,
+            SAM07ApePers2=P_SAM07ApePers2,
+            SAM07TelefOfi=P_SAM07TelfOfi,
+            SAM07TelefPers=P_SAM07TelfPers,
+            SAM07CorrPers=P_SAM07CorrPers
+         WHERE SAM07CedUsr= P_SAM07CedUsr;
+    SELECT 'Valor actualizados con exito!';
+    END IF;
+END$$
+
+DELIMITER ;
+
+DELIMITER $$
+
+USE `sam`$$
+
+DROP PROCEDURE IF EXISTS `sp_SamUpdOrd`$$
+
+CREATE PROCEDURE `sp_SamUpdOrd`
+(
+  P_SAM03CoOrd VARCHAR(50),
+  P_SAM03Ubic VARCHAR(50),
+  P_SAM04CoDepart VARCHAR(15),
+  P_SAM03Aniotrans DATE,
+  P_SAM03FeExti VARCHAR(10),
+  P_SAM05CedUsr VARCHAR(10)
+)
+BEGIN
+
+    IF NOT EXISTS(SELECT SAM03CoOrd FROM SAM03RegOrd WHERE SAM03CoOrd = P_SAM03CoOrd)
+    THEN
+      SELECT 'Este Registro no existe!';
+    
+    ELSE
+       UPDATE `SAM03RegOrd` 
+            SET SAM03Ubic=P_SAM03Ubic,
+            SAM04CoDepart=P_SAM04CoDepart,
+            SAM03AnioTrans=P_SAM03Aniotrans,
+            SAM03FeExt=P_SAM03FeExti,
+            SAM05CedUsr=P_SAM05CedUsr 
+            WHERE SAM03CoOrd=P_SAM03CoOrd;
+       SELECT 'Valor actualizados con exito!';
+    END IF;
+END$$
+
+DELIMITER ;
+
+DELIMITER$$
+
+USE `sam`$$
+
+DROP PROCEDURE IF EXISTS `sp_SamUpdPre`$$
+
+CREATE PROCEDURE `sp_SamUpdPre`
+(
+  P_SAM09CoPrest INT,
+  P_SAM09FePres DATE,
+  P_SAM09FeDevo DATE,
+  P_SAM05CedUsr VARCHAR(50) 
+)
+BEGIN
+      
+    IF NOT EXISTS
+    (
+      SELECT SAM09CoPrest FROM SAM09RegPre WHERE  SAM09CoPrest =  P_SAM09CoPrest
+    )
+    THEN
+      SELECT 'Este registro no existe!';
+    ELSE
+       UPDATE `SAM09RegPrest` 
+          SET 
+              SAM09FePres=P_SAM09FePres,
+              SAM09FeDevo=P_SAM09FeDevo,
+              SAM05CedUsr=P_SAM05CedUsr
+              WHERE SAM09CoPrest=P_SAM09CoPrest;
+       SELECT 'Registro actualizado con exito!';
+    END IF;
+END$$
+
+DELIMITER ;
+
+DELIMITER$$
+
+USE `sam`$$
+
+DROP PROCEDURE IF EXISTS `sp_SamUpdDoc`$$
+
+CREATE PROCEDURE `sp_SamUpdDoc`(
+  P_SAM01CoDoc VARCHAR(50),
+  P_SAM02CoTipDoc INT(11),
+  P_SAM01Conte VARCHAR(200),
+  P_SAM01Note VARCHAR(50),
+  P_SAM01Contri VARCHAR(100),
+  P_SAM01Anio DATE,
+  P_SAM01FeExt VARCHAR(10)
+)
+BEGIN
+   
+      
+    IF NOT EXISTS
+        (
+        SELECT SAM01CoDoc FROM SAM01RegDoc WHERE  SAM01CoDoc =  P_SAM01CoDoc
+        )
+    THEN
+      SELECT 'Este registro no existe!';
+    ELSE
+       UPDATE `SAM01RegDoc` 
+           SET 
+           SAM02CoTipDoc=P_SAM02CoTipDoc,
+           SAM01Conte=P_SAM01Conte,
+           SAM01Note=P_SAM01Note,
+           SAM01Contri=P_SAM01Contri,
+           SAM01Anio=P_SAM01Anio,
+           SAM01FeExt=P_SAM01FeExt 
+           WHERE SAM01CoDoc=P_SAM01CoDoc;
+       SELECT 'Registro actualizado con exito!';
+    END IF;
+END$$
+
+DELIMITER ;
+
+DELIMITER $$
+
+USE `sam`$$
+
+DROP PROCEDURE IF EXISTS `sp_SamUpdEst`$$
+
+CREATE PROCEDURE `sp_SamUpdEst`
+(
+  P_SAM08CoDoc VARCHAR(50),
+  P_SAM08EstDoc VARCHAR(12)
+)
+BEGIN
+    
+    IF NOT EXISTS
+    (
+      SELECT SAM08CoDoc FROM SAM08EstDoc WHERE  SAM08CoDoc =  P_SAM08CoDoc
+    )
+    THEN
+      SELECT 'Este registro no existe!';
+    
+    ELSE
+       UPDATE SAM08CatEst 
+           SET SAM08EstDoc=P_SAM08EstDoc 
+           WHERE SAM08CoDoc=P_SAM08CoDoc;
+       SELECT 'Registro agregado con exito!';
+    END IF;
+END$$
+
+DELIMITER ;
+
+DELIMITER $$
+
+USE `sam`$$
+
+DROP PROCEDURE IF EXISTS `sp_SamUpdUsr`$$
+
+CREATE PROCEDURE `sp_SamUpdUsr`(
+  P_SAM05CedUsr VARCHAR(10),
+  P_SAM05Contra VARCHAR(20),
+  P_SAM06CoTipUsr INT(11),
+  P_SAM04CoDepart VARCHAR(15) 
+)
+BEGIN
+   
+      
+    IF NOT EXISTS
+    (
+      SELECT SAM05CedUsr FROM sam05regusr WHERE  SAM05CedUsr =  P_SAM05CedUsr
+    )
+    THEN
+      SELECT 'Este registro no existe!';
+    
+    ELSE
+       UPDATE sam05regusr 
+           SET SAM05Contra=P_SAM05Contra,
+	       SAM06CoTipUsr=P_SAM06CoTipUsr,
+               SAM04CoDepart=P_SAM04CoDepart
+           WHERE SAM05CedUsr=P_SAM05CedUsr;
+       SELECT 'Registro actualizado con exito!';
+    END IF;
+END$$
+
+DELIMITER ;
+
+DELIMITER $$
+
+USE `sam`$$
+
+DROP PROCEDURE IF EXISTS `sp_SamUpdDep`$$
+
+CREATE PROCEDURE `sp_SamUpdDep`(
+  P_SAM04CoDepart     INT,
+  P_SAM04DescpPart  VARCHAR(50)
+)
+BEGIN
+   
+      
+    IF NOT EXISTS
+    (
+      SELECT SAM04CoDepart FROM SAM04Depart WHERE  SAM04CoDepart =  P_SAM04CoDepart
+    )
+    THEN
+      SELECT 'Este registro no existe!';
+    
+    ELSE
+       UPDATE SAM04CatDepart 
+           SET SAM04DescpPart=P_SAM04DescpPart
+           WHERE SAM04CoDepart=P_SAM04CoDepart;
+       SELECT 'Registro actualizado con exito!';
+    END IF;
+END$$
+
+DELIMITER ;
+

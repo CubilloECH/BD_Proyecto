@@ -1,0 +1,151 @@
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~SAM01RegDoc~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+DELIMITER $$
+
+USE `sam`$$
+DROP PROCEDURE IF EXISTS `sp_samSrhRegDoc`$$
+
+CREATE PROCEDURE sp_samSrhRegDoc(IN p_SAM01CoDoc VARCHAR(50))
+BEGIN
+
+SELECT SAM01CoDoc,SAM03CoOrd,SAM02CoTipDoc,SAM01Conte,SAM01Note,SAM01Contri,SAM01Anio,SAM01FeExt 
+	
+	FROM SAM01RegDoc WHERE SAM01RegDoc.`SAM01CoDoc`=SAM01CoDoc;
+
+END $$
+
+DELIMITER ;
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~SAM02CatTipDoc~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+DELIMITER $$
+
+USE `sam`$$
+DROP PROCEDURE IF EXISTS `sp_samSrhTipDoc`$$
+
+CREATE PROCEDURE sp_samSrhTipDoc(IN p_SAM02CoTipDoc INTEGER)
+BEGIN
+SELECT SAM02CoTipDoc,SAM02Descp FROM SAM02TipDoc WHERE SAM02TipDoc.`SAM02CoTipDoc`= p_SAM02CoTipDoc;
+END $$
+
+DELIMITER ;
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~SAM03RegOrd~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+DELIMITER $$
+
+USE `sam`$$
+DROP PROCEDURE IF EXISTS `sp_samSrhRegOrd`$$
+
+CREATE PROCEDURE sp_samSrhRegOrd(IN p_SAM03CoOrd VARCHAR(50))
+BEGIN
+SELECT SAM03CoOrd,SAM03Ubic,SAM04CoDepart,SAM03AnioTrans,SAM03FeExt,SAM05CedUsr FROM SAM03RegOrd WHERE SAM03RegOrd.`SAM03CoOrd`=p_SAM03CoOrd;
+END $$
+
+DELIMITER ;
+/*~~~~~~~~~~~~~~~~~~~~~~~~SAM04CatDepart~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+DELIMITER $$
+
+USE `sam`$$
+DROP PROCEDURE IF EXISTS `sp_samSrhDepart`$$
+
+CREATE PROCEDURE sp_samSrhDepart(IN p_SAM04CoDepart VARCHAR(15))
+BEGIN
+SELECT SAM04CoDepart,SAM04DescpPart FROM SAM04Depart WHERE SAM04Depart.`SAM04CoDepart`= p_SAM04CoDepart;
+END $$
+
+DELIMITER ;
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~SAM05RegUsr~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+DELIMITER $$
+
+USE `sam`$$
+DROP PROCEDURE IF EXISTS `sp_samSrhRegUsr`$$
+
+CREATE PROCEDURE sp_samSrhRegUsr(IN p_SAM05CedUsr VARCHAR(10))
+BEGIN
+SELECT SAM05CedUsr,SAM05Contra,SAM06CoTipUsr,SAM04CoDepart FROM SAM05RegUsr WHERE SAM05RegUsr.`SAM05CedUsr`=p_SAM05CedUsr;
+END $$
+
+DELIMITER ;
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~SAM06CatTipUsr~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+DELIMITER $$
+
+USE `sam`$$
+DROP PROCEDURE IF EXISTS `sp_samSrhTipUsr`$$
+
+CREATE PROCEDURE sp_samSrhTipUsr(IN p_SAM06CoTipUsr INTEGER)
+BEGIN
+SELECT SAM06CoTipUsr,SAM06DescpUsr FROM SAM06TipUsr WHERE SAM06TipUsr.`SAM06CoTipUsr`=p_SAM06CoTipUsr;
+END $$
+
+DELIMITER ;
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~SAM07RegPers~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+DELIMITER $$
+
+USE `sam`$$
+DROP PROCEDURE IF EXISTS `sp_samSrhRegPer`$$
+
+CREATE PROCEDURE sp_samSrhRegPer(IN p_SAM07CedUsr VARCHAR(10))
+BEGIN
+SELECT SAM07CedUsr,SAM07NomPers,SAM07ApePers1,SAM07ApePers2,SAM07TelefOfi,SAM07TelefPers,SAM07CorrPers FROM SAM07RegPer WHERE SAM07RegPer.`SAM07CedUsr`=p_SAM07CedUsr;
+END $$
+
+DELIMITER ;
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~SAM08CatEst~~~~~~~~~~~~~~~~~~~~~~~~*/
+DELIMITER $$
+
+USE `sam`$$
+DROP PROCEDURE IF EXISTS `sp_samSrhEstDoc`$$
+
+CREATE PROCEDURE sp_samSrhEstDoc(IN p_SAM08CoDoc varchar(50))
+BEGIN
+SELECT SAM08CoDoc,SAM08EstDoc FROM SAM08EstDoc WHERE SAM08EstDoc.`SAM08CoDoc`=SAM08CoDoc;
+END $$
+DELIMITER ;
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~SAM09RegPrest~~~~~~~~~~~~~~~~~~~~~~~~~*/
+DELIMITER $$
+
+USE `sam`$$
+DROP PROCEDURE IF EXISTS `sp_samSrhRegPre`$$
+
+CREATE PROCEDURE sp_samSrhRegPre(IN p_SAM09CoPrest INTEGER)
+BEGIN
+SELECT SAM09CoPrest,SAM09FePres,SAM09FeDevo,SAM05CedUsr FROM SAM09RegPre WHERE SAM09RegPre.`SAM09CoPrest`=p_SAM09CoPrest;
+END $$
+
+DELIMITER ;
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~SAM10DetPrest~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+DELIMITER $$
+
+USE `sam`$$
+DROP PROCEDURE IF EXISTS `sp_samSrhDetPre`$$
+
+CREATE PROCEDURE sp_samSrhDetPre(IN p_SAM10CoDet INTEGER)
+BEGIN
+SELECT SAM10CoDet,SAM09CoPrest,SAM01CoDoc FROM SAM10DetPre WHERE SAM10DetPre.`SAM10CoDet`=p_SAM10CoDet;
+END $$
+
+DELIMITER ;
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~SAM11RegSoli~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+DELIMITER $$
+
+USE `sam`$$
+DROP PROCEDURE IF EXISTS `sp_samSrhRegSol`$$
+
+CREATE PROCEDURE sp_samSrhRegSol(IN p_SAM11CoSoli INTEGER)
+BEGIN
+SELECT SAM11CoSoli,SAM11Fesoli,SAM05CedUsr,SAM11ResSoli FROM SAM11RegSol WHERE SAM11RegSol.`SAM11CoSoli` = p_SAM11CoSoli;
+END $$
+
+DELIMITER ;
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~SAM12DeTSoli~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+DELIMITER $$
+
+USE `sam`$$
+DROP PROCEDURE IF EXISTS `sp_samSrhDeTSol`$$
+
+CREATE PROCEDURE sp_samSrhDeTSol(IN p_SAM12CoDet INTEGER)
+BEGIN
+SELECT SAM12CoDet,SAM11CoSoli,SAM01CoDoc FROM SAM12DeTSol WHERE SAM12DeTSol.`SAM12CoDet`=p_SAM12CoDet;
+END $$
+
+DELIMITER ;
+

@@ -1,0 +1,123 @@
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~SAM01RegDoc~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+DELIMITER $$
+
+USE `sam`$$
+DROP PROCEDURE IF EXISTS `sp_samDelRegDoc`$$
+
+CREATE PROCEDURE sp_samDelRegDoc(p_SAM01CoDoc VARCHAR(50))
+BEGIN
+   DELETE FROM SAM01RegDoc WHERE SAM01RegDoc.`SAM01CoDoc`=  p_SAM01CoDoc;
+END $$
+
+DELIMITER ;
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~SAM03RegOrd~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+DELIMITER $$
+
+USE `sam`$$
+DROP PROCEDURE IF EXISTS `sp_samDelRegOrd`$$
+
+CREATE PROCEDURE sp_samDelRegOrd(p_SAM03CoOrd VARCHAR(50))
+BEGIN
+   DELETE FROM SAM03RegOrd WHERE SAM03RegOrd.`SAM03CoOrd`=p_SAM03CoOrd;
+END $$
+
+DELIMITER ;
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~SAM04Depart~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+DELIMITER $$
+
+USE `sam`$$
+DROP PROCEDURE IF EXISTS `sp_samDelDepart`$$
+
+CREATE PROCEDURE sp_samDelDepart(p_SAM04CoDepart VARCHAR(15))
+BEGIN
+   DELETE FROM SAM04Depart WHERE SAM04Depart.`SAM04CoDepart`=p_SAM04CoDepart;
+END $$
+
+DELIMITER ;
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~SAM05RegUsr~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+DELIMITER $$
+
+USE `sam`$$
+DROP PROCEDURE IF EXISTS `sp_samDelRegUsr`$$ /*~eliminar Usuario~*/
+
+CREATE PROCEDURE sp_samDelRegUsr(p_SAM05CedUsr VARCHAR(10))
+BEGIN
+   DELETE FROM SAM05RegUsr WHERE SAM05RegUsr.`SAM05CedUsr`= p_SAM05CedUsr;
+END $$
+
+DELIMITER ;
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~SAM07RegPers~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+DELIMITER $$
+
+USE `sam`$$
+DROP PROCEDURE IF EXISTS `sp_samDelRegPer`$$ /*~eliminar Registro de Persona*/
+
+CREATE PROCEDURE sp_samDelRegPer(p_SAM07CedUsr VARCHAR(10))
+BEGIN
+   DELETE FROM SAM07RegPer WHERE SAM07RegPer.`SAM07CedUsr`=p_SAM07CedUsr;
+END $$
+
+DELIMITER ;
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~SAM08EstDoc~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+DELIMITER $$
+
+USE `sam`$$
+DROP PROCEDURE IF EXISTS `sp_samDelEstDoc`$$
+
+CREATE PROCEDURE sp_samDelEstDoc(p_SAM08CoDoc VARCHAR(50))
+BEGIN
+   DELETE FROM SAM08EstDoc WHERE SAM08EstDoc.`SAM08CoDoc`=p_SAM08CoDoc;
+END $$
+
+DELIMITER ;
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~SAM09RegPre~~~~~~~~~~~~~~~~~~~~~~~~~*/
+DELIMITER $$
+
+USE `sam`$$
+DROP PROCEDURE IF EXISTS `sp_samDelRegPre`$$ /*~eliminar Registro Prestamo~*/
+
+CREATE PROCEDURE sp_samDelRegPre(p_SAM09CoPrest INTEGER)
+BEGIN
+   DELETE FROM SAM09RegPre WHERE SAM09RegPre.`SAM09CoPrest`=p_SAM09CoPrest;
+END $$
+
+DELIMITER ;
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~SAM10DetPre~~~~~~~~~~~~~~~~~~~~~~~~~*/
+DELIMITER $$
+
+USE `sam`$$
+DROP PROCEDURE IF EXISTS `sp_samDelDetPre`$$ /*~eliminar Registro Prestamo~*/
+
+CREATE PROCEDURE sp_samDelDetPre(p_SAM10CoDet INT)
+BEGIN
+   DELETE FROM SAM10DetPre WHERE SAM10DetPre.`SAM10CoDet`=  p_SAM10CoDet;
+END $$
+
+DELIMITER ;
+
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~SAM11RegSol~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+DELIMITER $$
+
+USE `sam`$$
+DROP PROCEDURE IF EXISTS `sp_samDelRegSol`$$ /*~eliminar Registro de Solicitud*/
+
+CREATE PROCEDURE sp_samDelRegSol(p_SAM11CoSoli INTEGER)
+BEGIN
+   DELETE FROM SAM11RegSol WHERE SAM11RegSol.`SAM11CoSoli`= p_SAM11CoSoli;
+END $$
+
+DELIMITER ;
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~SAM10Detsol~~~~~~~~~~~~~~~~~~~~~~~~~*/
+DELIMITER $$
+
+USE `sam`$$
+DROP PROCEDURE IF EXISTS `sp_samDelDetsol`$$
+
+CREATE PROCEDURE sp_samDelDetsol(p_SAM10CoDet INT)
+BEGIN
+   DELETE FROM SAM12DetSol WHERE SAM12DetSol.`SAM10CoSoli`=  p_SAM10CoSoli;
+END $$
+
+DELIMITER ;
